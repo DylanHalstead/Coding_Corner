@@ -163,8 +163,24 @@ footer {
   width: 100%;
 }
 
-.footer-copyright {
+.footer-text-list {
   margin-left: 2rem;
+  list-style: none;
+  display: flex;
+}
+
+.footer-text-item {
+  margin-right: 1rem;
+}
+
+.footer-text-link {
+  text-decoration: none;
+  transition: all 0.5s ease;
+}
+
+.footer-text-link:hover, .footer-text-link.active {
+  transition: all 0.5s ease;
+  color: #6F53CA
 }
 
 .icon-container {
@@ -519,6 +535,13 @@ select.new-event-field {
   fill: rgba(223, 45, 22, .8);
   filter:drop-shadow(0 0 5px #DF2D16);
   transition: all .2s ease
+}
+
+.detailed-event-btn {
+  background-color: transparent;
+  border: none;
+  padding: none;
+  cursor: pointer;
 }
 
 .detailed-event-text-container {

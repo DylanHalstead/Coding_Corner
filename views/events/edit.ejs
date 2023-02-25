@@ -1,0 +1,58 @@
+<%- include('../partials/header.ejs') %>
+  <form action="/events/<%= event.id %>?_method=PUT" method="POST">
+    <div class="new-event-container">
+      <h1 class="new-event-header">New Event</h1>
+      <div class="new-event-field-container">
+        <label class="new-event-label" for="category-drop">Catagory</label>
+        <select class="new-event-field" name="category" id="category" required>
+          <option class="category-option" value="" disabled>Choose a category</option>
+          <%if(event.category === 'Gaming') {%> 
+            <option class="category-option" value="Gaming" selected>Gaming</option>
+          <% } else { %>
+            <option class="category-option" value="Gaming">Gaming</option>
+          <%} if(event.category === 'School') {%> 
+            <option class="category-option" value="School" selected>School</option>
+          <% } else { %>
+            <option class="category-option" value="School">School</option>
+          <%} if(event.category === 'Event') {%> 
+            <option class="category-option" value="Event" selected>Event</option>
+          <% } else { %>
+            <option class="category-option" value="Event">Event</option>
+          <%} if(event.category === 'Cinema') {%> 
+            <option class="category-option" value="Cinema" selected>Cinema</option>
+          <% } else { %>
+            <option class="category-option" value="Cinema">Cinema</option>
+          <%} if(event.category === 'Other') {%> 
+            <option class="category-option" value="Cinema" selected>Other</option>
+          <% } else { %>
+            <option class="category-option" value="Cinema">Other</option>
+          <%}%>
+        </select>
+      </div>
+      <div class="new-event-field-container">
+        <label class="new-event-label" for="title">Title</label>
+        <input class="new-event-field" type="text" name="title" id="title" value="<%= event.title %>" required autocomplete="off">
+      </div>
+      <div class="new-event-field-container">
+        <label class="new-event-label" for="description">Description</label>
+        <textarea class="new-event-field" name="description" id="description" autocomplete="off" required><%= event.description %></textarea>
+      </div>
+      <div class="new-event-dates-container">
+        <div class="new-event-field-container">
+          <label class="new-event-label" for="start">Start</label>
+          <input class="new-event-field" type="datetime-local" name="start" id="start" value="<%= event.start %>" required>
+        </div>
+        <div class="new-event-field-container">
+          <label class="new-event-label" for="end">End</label>
+          <input class="new-event-field" type="datetime-local" name="end" id="end" value="<%= event.end %>" required>
+        </div>
+      </div>
+      <div class="new-event-field-container">
+        <label class="new-event-label" for="location">Location</label>
+        <input class="new-event-field" type="text" name="location" id="location" value="<%= event.location %>" required autocomplete="off">
+      </div>
+      <button class="new-event-submit-btn" type="submit">Submit</button>
+    </div>
+  </form>
+  <script src="/js/new-event.js"></script>
+<%- include('../partials/footer.ejs') %>

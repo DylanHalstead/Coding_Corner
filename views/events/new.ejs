@@ -1,0 +1,53 @@
+<%- include('../partials/header.ejs') %>
+  <form action="/events" method="POST" enctype="multipart/form-data">
+    <div class="new-event-container">
+      <h1 class="new-event-header">New Event</h1>
+      <div class="new-event-field-container">
+        <label class="new-event-label" for="category-drop">Catagory</label>
+        <select class="new-event-field" name="category" id="category" required>
+          <option class="category-option" value="" selected disabled>Choose a category</option>
+          <option class="category-option" value="Gaming">Gaming</option>
+          <option class="category-option" value="School">School</option>
+          <option class="category-option" value="Event">Event</option>
+          <option class="category-option" value="Cinema">Cinema</option>
+          <option class="category-option" value="Other">Other</option>
+        </select>
+      </div>
+      <div class="new-event-field-container">
+        <label class="new-event-label" for="title">Title</label>
+        <input class="new-event-field" type="text" name="title" id="title" required autocomplete="off">
+      </div>
+      <div class="new-event-field-container">
+        <label class="new-event-label" for="description">Description</label>
+        <textarea class="new-event-field" name="description" id="description" autocomplete="off" required></textarea>
+      </div>
+      <div class="new-event-dates-container">
+        <div class="new-event-field-container">
+          <label class="new-event-label" for="start">Start</label>
+          <input class="new-event-field" type="datetime-local" name="start" id="start" required>
+        </div>
+        <div class="new-event-field-container">
+          <label class="new-event-label" for="end">End</label>
+          <input class="new-event-field" type="datetime-local" name="end" id="end" required>
+        </div>
+      </div>
+      <div class="new-event-field-container">
+        <label class="new-event-label" for="location">Location</label>
+        <input class="new-event-field" type="text" name="location" id="location" required autocomplete="off">
+      </div>
+      <div class="new-event-field-container">
+        <label class="new-event-label" for="image">Image</label>
+        <button class="new-event-file-btn" id="file-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="#F3EBFF" class="file-icon" viewBox="0 0 16 16">
+            <path d="M6.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+            <path d="M14 14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5V14zM4 1a1 1 0 0 0-1 1v10l2.224-2.224a.5.5 0 0 1 .61-.075L8 11l2.157-3.02a.5.5 0 0 1 .76-.063L13 10V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4z"/>
+          </svg>
+          <span id="file-text">Browse...</span>
+        </button>
+        <input class="new-event-field" type="file" name="image" id="image" accept=".png,.jpg,.jpeg,.gif" required>
+      </div>
+      <button class="new-event-submit-btn" type="submit">Submit</button>
+    </div>
+  </form>
+  <script src="/js/new-event.js"></script>
+<%- include('../partials/footer.ejs') %>

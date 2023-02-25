@@ -1,0 +1,28 @@
+{
+  "name": "cording_corner",
+  "version": "0.1.0",
+  "description": "Build for Network Based Application Developmnent (ITIS 4166) class, Coding Corner is a simple CRUD application where user's can create and sign up for events",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DylanHalstead/Coding_Corner.git"
+  },
+  "author": "Dylan Halstead",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DylanHalstead/Coding_Corner/issues"
+  },
+  "homepage": "https://github.com/DylanHalstead/Coding_Corner#readme",
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.0",
+    "luxon": "^3.2.1",
+    "method-override": "^3.0.0",
+    "morgan": "^1.10.0",
+    "uuid": "^9.0.0"
+  }
+}
