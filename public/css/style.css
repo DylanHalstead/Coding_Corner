@@ -170,7 +170,7 @@ footer {
 }
 
 .footer-text-item {
-  margin-right: 1rem;
+  margin: 0 .5rem;
 }
 
 .footer-text-link {
@@ -547,7 +547,6 @@ select.new-event-field {
 .detailed-event-text-container {
   display: flex;
   align-items: center;
-  font-style: italic;
   margin: 1rem 0;
 }
 
@@ -556,6 +555,13 @@ select.new-event-field {
   font-family: 'Montserrat', sans-serif;
   font-weight: 900;
   color: #6F53CA;
+}
+
+.detailed-event-host {
+  font-size: 1.5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  color: #F3EBFF;
   margin-bottom: 1rem;
 }
 
@@ -659,6 +665,10 @@ select.new-event-field {
     flex-direction: column;
     height: autointro;
   } 
+
+  .footer-text-list {
+    margin-left: 0;
+  }
 }
 
 @media (max-width: 500px) {

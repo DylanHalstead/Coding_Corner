@@ -30,21 +30,25 @@
         </select>
       </div>
       <div class="new-event-field-container">
+        <label class="new-event-label" for="host">Host</label>
+        <input class="new-event-field" type="text" name="host" id="host" value="<%= event.host %>" required autocomplete="off">
+      </div>
+      <div class="new-event-field-container">
         <label class="new-event-label" for="title">Title</label>
         <input class="new-event-field" type="text" name="title" id="title" value="<%= event.title %>" required autocomplete="off">
       </div>
       <div class="new-event-field-container">
-        <label class="new-event-label" for="description">Description</label>
-        <textarea class="new-event-field" name="description" id="description" autocomplete="off" required><%= event.description %></textarea>
+        <label class="new-event-label" for="details">Details</label>
+        <textarea class="new-event-field" name="details" id="details" autocomplete="off" required><%= event.details %></textarea>
       </div>
       <div class="new-event-dates-container">
         <div class="new-event-field-container">
           <label class="new-event-label" for="start">Start</label>
-          <input class="new-event-field" type="datetime-local" name="start" id="start" value="<%= event.start %>" required>
+          <input class="new-event-field" type="datetime-local" name="start" id="start" value="<%= ISOStart %>" required>
         </div>
         <div class="new-event-field-container">
           <label class="new-event-label" for="end">End</label>
-          <input class="new-event-field" type="datetime-local" name="end" id="end" value="<%= event.end %>" required>
+          <input class="new-event-field" type="datetime-local" name="end" id="end" value="<%= ISOEnd %>" required>
         </div>
       </div>
       <div class="new-event-field-container">

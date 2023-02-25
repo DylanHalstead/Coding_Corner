@@ -37,13 +37,14 @@ exports.show = (req, res, next) => {
 
 exports.edit = (req, res, next) => {
   let event = model.findById(req.params.id);
-
-  event.start = model.dateToISO(event.start);
-  event.end = model.dateToISO(event.end);
+  let ISOStart = model.dateToISO(event.start);
+  let ISOEnd = model.dateToISO(event.end);
   if(event) {
     res.render('./events/edit', {
       page_name: `Edit: ${event.title}`,
-      event: event
+      event: event,
+      ISOStart: ISOStart,
+      ISOEnd: ISOEnd
     });
   } else {
     let err = new Error(`Cannot find event with id ${req.params.id}`);
