@@ -129,7 +129,6 @@ body {
   background-color: rgba(243, 235, 255, .1);
   border: 1px rgba(111, 83, 202, 0) solid;
   border-radius: 200px;
-  padding: .4rem .75rem;
   margin: .5rem 0 .5rem 2rem;
   transition: all .25s ease-out;
 }
@@ -146,8 +145,13 @@ body {
   color: #6F53CA;
 }
 
+.nav-chip p {
+  padding: .4rem 0;
+}
+
 .nav-chip-link {
   text-decoration: none;
+  padding: .4rem .75rem;
 }
 
 footer {
@@ -578,6 +582,25 @@ select.new-event-field {
 .detailed-event-alter-icon {
   height: 1.75rem;
   margin-right: 1rem;
+}
+
+.error-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+.error-header {
+  font-size: 4rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  color: #6F53CA;
+}
+
+.error-info {
+  margin-top: .5rem;
+  font-size: 1rem;
 }
 
 @media (max-width: 1080px) {

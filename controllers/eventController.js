@@ -39,6 +39,8 @@ exports.edit = (req, res, next) => {
   let event = model.findById(req.params.id);
   let ISOStart = model.dateToISO(event.start);
   let ISOEnd = model.dateToISO(event.end);
+  console.log(ISOStart);
+  console.log(ISOEnd);
   if(event) {
     res.render('./events/edit', {
       page_name: `Edit: ${event.title}`,

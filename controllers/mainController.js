@@ -1,6 +1,6 @@
 exports.index = (req, res) => {
   res.render('./index', {
-    page_name: 'Coding COrner'
+    page_name: 'Coding Corner'
   });
 };
 

@@ -1,7 +1,7 @@
 <%- include('../partials/header.ejs') %>
   <form action="/events/<%= event.id %>?_method=PUT" method="POST">
     <div class="new-event-container">
-      <h1 class="new-event-header">New Event</h1>
+      <h1 class="new-event-header">Edit Event</h1>
       <div class="new-event-field-container">
         <label class="new-event-label" for="category-drop">Catagory</label>
         <select class="new-event-field" name="category" id="category" required>
@@ -23,9 +23,9 @@
           <% } else { %>
             <option class="category-option" value="Cinema">Cinema</option>
           <%} if(event.category === 'Other') {%> 
-            <option class="category-option" value="Cinema" selected>Other</option>
+            <option class="category-option" value="Other" selected>Other</option>
           <% } else { %>
-            <option class="category-option" value="Cinema">Other</option>
+            <option class="category-option" value="Other">Other</option>
           <%}%>
         </select>
       </div>

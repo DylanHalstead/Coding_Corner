@@ -40,7 +40,7 @@ const events = [
     category: 'Other',
     title: 'Super Swag Meetup',
     details: 'In pellentesque massa placerat duis ultricies lacus sed turpis tincidunt. Ultrices mi tempus imperdiet nulla malesuada pellentesque.',
-    host: '',
+    host: 'Lmao',
     start: '4/12/2023, 1:30 AM',
     end: '4/13/2023, 5:30 PM',
     location: 'Friday 110',
@@ -221,6 +221,7 @@ exports.save = (event, image) => {
   event.imagePath = `/images/events/${image.name}`;
   // save event img to server
   image.mv(`${__dirname}/../public/${event.imagePath}`);
+  console.log(event)
   events.push(event);
 }
 
@@ -245,7 +246,7 @@ exports.updateById = function(id, newEvent) {
 exports.deleteById = function(id) {
   let index = events.findIndex(event => event.id === id);
   if (index === -1) {
-    return true;
+    return false;
   }
   events.splice(index, 1);
   return true;
