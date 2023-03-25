@@ -1,9 +1,9 @@
 <%- include('../partials/header.ejs') %>
   <div class="detailed-event-container">
     <div class="detailed-event-image-container">
-      <img src="<%= event.imagePath %>" alt="event.jpg" class="detailed-event-image">
+      <img src="data:image/<%=event.image.contentType%>;base64,<%=event.image.data.toString('base64')%>" alt="<%=event._id%>.jpg" class="detailed-event-image">
       <div class="detailed-event-options">
-        <form action="/events/<%= event.id %>/edit" method="GET">
+        <form action="/events/<%= event._id %>/edit" method="GET">
           <button id="detailed-event-edit-link" class="detailed-event-btn">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="detailed-event-alter-icon" id="detailed-event-edit" viewBox="0 0 16 16">
               <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
@@ -11,7 +11,7 @@
             </svg>
           </button>
         </form>
-        <form action="/events/<%= event.id %>?_method=DELETE" method="POST">
+        <form action="/events/<%= event._id %>?_method=DELETE" method="POST">
           <button id="detailed-event-trash-link" class="detailed-event-btn">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="detailed-event-alter-icon" id="detailed-event-trash" viewBox="0 0 16 16">
               <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
@@ -30,7 +30,7 @@
           <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
           <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
         </svg>
-        <p class="detailed-event-text"><%= event.start %> - <%= event.end %></p>
+        <p class="detailed-event-text"><%= event.start.toLocaleString() %> - <%= event.end.toLocaleString() %></p>
       </div>
       <div class="detailed-event-text-container">
         <svg xmlns="http://www.w3.org/2000/svg" fill="#6F53CA" viewBox="0 0 16 16" class="detailed-event-icon">

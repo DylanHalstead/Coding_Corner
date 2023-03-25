@@ -315,6 +315,7 @@ input[type=file].new-event-field {
   display: none;
 }
 
+
 .new-event-file-btn {
   display: flex;
   align-items: center;
@@ -331,7 +332,7 @@ input[type=file].new-event-field {
   transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
-.new-event-file-btn:hover {
+.new-event-file-btn:hover, .new-event-file-btn.active {
   background-color: rgba(111, 83, 202, .8);
   outline: none;
   box-shadow: 0 0 20px #6F53CA;
@@ -362,7 +363,7 @@ input[type=file].new-event-field {
 .new-event-field {
   height: 2rem;
   border-radius: 200px;
-  text-indent: 16px;
+  padding-left: 16px;
   border: 1px #6F53CA solid;
   outline:none;
   box-shadow: none;
@@ -377,13 +378,16 @@ input[type=file].new-event-field {
 
 textarea.new-event-field {
   height: 6rem;
-  padding-top: 4px;
+  padding-top: 6px;
+  padding-left: 12px;
   border-radius: 1rem;
-  text-indent: 12px;
+}
+
+input[type=datetime-local].new-event-field {
+  padding-left: 6px;
 }
 
 select.new-event-field {
-  text-indent: 8px;
   appearance: none;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
@@ -501,7 +505,7 @@ select.new-event-field {
 
 .detailed-event-container {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 50% 50%;
   grid-gap: 4rem;
   width: 80%;
   margin: auto;
@@ -513,6 +517,7 @@ select.new-event-field {
   width: 100%;
   min-height: 18rem;
   max-height: 32rem;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 

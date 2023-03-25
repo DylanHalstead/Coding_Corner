@@ -1,18 +1,26 @@
-// require modules
+require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const methodOverride = require('method-override');
 const fileUpload = require('express-fileupload');
 const eventRoutes = require('./routes/eventRoutes')
 const mainRoutes = require('./routes/mainRoutes')
+const mongoose = require('mongoose');
 
-// create app
 const app = express();
-
-// configure app
-let port = 3000;
-let host = 'localhost';
+const port = process.env.PORT || 3000;
+const host = 'localhost';
+const mongoURL = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@codingcorner.wioq6cp.mongodb.net/?retryWrites=true&w=majority`;
 app.set('view engine', 'ejs');
+
+// connect to MongoDB, start server
+mongoose.connect(mongoURL)
+.then(client => {
+    app.listen(port, host, () => {
+        console.log(`Server running on port ${port}`)
+    });
+})
+.catch(err => console.log(err.message));
 
 // mount middleware
 // serve static files that are in public dir
@@ -42,14 +50,10 @@ app.use((err, req, res, next) => {
     err.status = 500;
     err.message = ("Internal Server Error");
   }
+  console.error(err.stack)
   res.status(err.status);
   res.render('error', {
     error: err,
-    page_name: 'Error'
+    page_name: `${err.status} Error`
   });
 });
-
-// start server
-app.listen(port, host, () => {
-  console.log(`Server running on port ${port}`)
-})
