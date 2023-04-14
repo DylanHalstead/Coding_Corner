@@ -130,6 +130,9 @@ exports.update = (req, res, next) => {
 
 exports.delete = (req, res, next) => {
   Event.findByIdAndDelete(req.params.id, {useFindAndModify: false})
-  .then(event => res.redirect('/events'))
+  .then(event => {
+    req.flash('success', 'Event Deleted');
+    res.redirect('/events')
+  })
   .catch(err => next(err));
 };

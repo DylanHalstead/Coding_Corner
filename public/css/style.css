@@ -157,6 +157,10 @@ body {
 .alerts-container {
   display: flex;
   margin: 20px;
+  position: absolute;
+  top: 8rem;
+  right: 0;
+  z-index: 3;
 }
 
 .alert-container {

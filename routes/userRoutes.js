@@ -4,7 +4,7 @@ const {isGuest, isLoggedIn} = require('../middlewares/auth');
 
 const router = express.Router();
 
-router.get('/signup', isGuest, controller.new);
+router.get('/new', isGuest, controller.new);
 
 router.post('/', isGuest, controller.create);
 

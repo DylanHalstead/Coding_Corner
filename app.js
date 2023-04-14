@@ -42,11 +42,11 @@ app.use(flash());
 // set local variables like current user and flash messages
 app.use((req, res, next) => {
   res.locals.user = req.session.user||null;
-  res.locals.userName = req.session.userName||null;
+  res.locals.username = req.session.username||null;
+  res.locals.firstName = req.session.firstName||null;
   // only load flash messages if not redirected
   res.locals.errorMessages = req.flash('error');
   res.locals.successMessages = req.flash('success');
-  console.log(res.locals);
   next();
 });
 // serve static files that are in public dir

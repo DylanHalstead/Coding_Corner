@@ -17,12 +17,12 @@ exports.create = (req, res, next)=>{
   .catch(err=>{
     if(err.name === 'ValidationError' ) {
       req.flash('error', err.message);  
-      return res.redirect('/users/signup');
+      res.redirect('/users/new');
     }
 
     if(err.code === 11000) {
-      req.flash('error', 'Email Already Used');  
-      return res.redirect('/users/signup');
+      req.flash('error', 'Email or Username Already Used');  
+      res.redirect('/users/new');
     }
 
     next(err);
@@ -50,10 +50,11 @@ exports.login = (req, res, next)=>{
       user.comparePassword(password)
       .then(result=>{
         if(result) {
-          req.session.userName = user.firstName;
+          req.session.firstName = user.firstName;
+          req.session.username = user.username;
           req.session.user = user._id;
           req.flash('success', 'Successfully Logged In');
-          res.redirect('/users/profile');
+          res.redirect('/');
         } else {
           req.flash('error', 'Wrong Password');      
           res.redirect('/users/login');
@@ -73,7 +74,7 @@ exports.profile = (req, res, next)=>{
     res.render(`./users/profile`, {
       user: user,
       events: events,
-      page_name: `Profile: ${user.username}`
+      page_name: `${user.firstName}'s Profile`
     });
   })
   .catch(err=>next(err));
@@ -82,7 +83,9 @@ exports.profile = (req, res, next)=>{
 exports.logout = (req, res, next)=>{
   req.session.destroy(err=>{
     if(err) next(err);
-    else res.redirect('/');  
+    else {
+      res.redirect('/')
+    };  
   });
 };
 

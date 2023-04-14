@@ -47,17 +47,17 @@
           <% } else { %>
             <li class="nav-item"><a class="nav-link" href="/events/new">New Event</a></li>
           <% } %>
-          <% if(page_name.includes("Profile:")){ %>
-            <li class="nav-item"><a class="nav-link active" href="/users/profile">Profile: <%= userName %></a></li>
+          <% if(page_name.includes("Profile")){ %>
+            <li class="nav-item"><a class="nav-link active" href="/users/profile"><%= firstName %>'s Profile</a></li>
           <% } else { %>
-            <li class="nav-item"><a class="nav-link" href="/users/profile">Profile:  <%= userName %></a></li>
+            <li class="nav-item"><a class="nav-link" href="/users/profile"><%= firstName %>'s Profile</a></li>
           <% } %>
           <li class="nav-item"><a class="nav-link" href="/users/logout">Logout</a></li>
         <% } else { %>
           <% if(page_name === 'Sign Up'){ %>
-            <li class="nav-item"><a class="nav-link active" href="/users/signup">Sign Up</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/users/new">Sign Up</a></li>
           <% } else { %>
-            <li class="nav-item"><a class="nav-link" href="/users/signup">Sign Up</a></li>
+            <li class="nav-item"><a class="nav-link" href="/users/new">Sign Up</a></li>
           <% } %>
           <% if(page_name.includes("Login")){ %>
             <li class="nav-item"><a class="nav-link active" href="/users/login">Login</a></li>
