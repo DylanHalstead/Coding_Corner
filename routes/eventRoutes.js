@@ -1,20 +1,22 @@
 const express = require('express');
 const controller = require('../controllers/eventController');
+const {isLoggedIn, isAuthor} = require('../middlewares/auth');
+const {validateId} = require('../middlewares/validator');
 
 const router = express.Router();
 
 router.get('/', controller.index);
 
-router.get('/new', controller.new);
+router.get('/new', isLoggedIn, controller.new);
 
-router.post('/', controller.create);
+router.post('/', isLoggedIn, controller.create);
 
-router.get('/:id', controller.show);
+router.get('/:id', validateId, controller.show);
 
-router.get('/:id/edit', controller.edit);
+router.get('/:id/edit', validateId, isLoggedIn, isAuthor, controller.edit);
 
-router.put('/:id', controller.update);
+router.put('/:id', validateId, isLoggedIn, isAuthor, controller.update);
 
-router.delete('/:id', controller.delete);
+router.delete('/:id', validateId, isLoggedIn, isAuthor, controller.delete);
 
 module.exports = router

@@ -1,17 +1,22 @@
-const model = require('../models/event');
+const Event = require('../models/event');
 
 exports.index = (req, res, next) => {
-  model.find()
+  // Event.aggregate([
+  //   { $sort: { category: 1, start_time: -1 } },
+  //   { $group: { _id: "$category", events: { $push: "$$ROOT" } } },
+  //   { $sort: { _id: 1 } }
+  // ])
+  Event.find()
   .then(events => {
     // sort events by category and put into an object
     let sortedEvents = {};
-    const categories = model.schema.path('category').enumValues;
+    const categories = Event.schema.path('category').enumValues;
     categories.forEach(category => {
       sortedEvents[category] = events.filter(event => event.category === category);
     });
     
+    // sort events by start date
     for(const category in sortedEvents){
-      // sort events by start date
       sortedEvents[category].sort((a, b) => a.start - b.start);
     }
     
@@ -31,26 +36,32 @@ exports.new = (req, res) => {
 
 // POST handler for processing the uploaded file
 exports.create = (req, res, next) => {
-  // Grab event and image from request body
-  const event = req.body;
-  const image = req.files.image;
-  // Create new event
-  const story = new model({
-    category: event.category,
-    title: event.title,
-    details: event.details,
-    host: event.host,
-    start: event.start,
-    end: event.end,
-    location: event.location,
-    image: {
+  const eventData = req.body;
+  let event = {
+    category: eventData.category,
+    title: eventData.title,
+    details: eventData.details,
+    host: req.session.user,
+    start: eventData.start,
+    end: eventData.end,
+    location: eventData.location,
+  };
+  // Validate image was uploaded
+  if(req.files){
+    const image = req.files.image;
+    event.image = {
       data: image.data,
       filename: image.name,
       contentType: image.mimetype
     }
-  });
-  story.save()
-  .then(result => res.redirect('/events'))
+  }
+
+  event = new Event(event);
+  event.save()
+  .then(result => {
+    req.flash('success', 'Event Created');
+    res.redirect('/events');
+  })
   .catch(err => {
     if(err.name === 'ValidationError'){
       err.status = 400;
@@ -60,62 +71,30 @@ exports.create = (req, res, next) => {
 };
 
 exports.show = (req, res, next) => {
-  const id = req.params.id;
-  if(!id.match(/^[0-9a-fA-F]{24}$/)){
-    let err = new Error(`Invalid event id`);
-    err.status = 400;
-    next(err);
-  }
-
-  model.findById(id)
+  Event.findById(req.params.id).populate('host', 'username')
   .then(event => {
-    if(event) {
-      res.render('./events/event', {
-        event: event,
-        page_name: event.title
-      });
-    }
-    else {
-      let err = new Error(`Cannot find event with id ${id}`);
-      err.status = 404;
-      next(err);
-    }
+    res.render('./events/event', {
+      event: event,
+      page_name: event.title
+    });
   })
   .catch(err => next(err));
 }
 
 exports.edit = (req, res, next) => {
-  const id = req.params.id;
-  if(!id.match(/^[0-9a-fA-F]{24}$/)){
-    let err = new Error(`Invalid event id`);
-    err.status = 400;
-    next(err);
-  }
-
-  model.findById(id)
+  Event.findById(req.params.id)
   .then(event => {
-    if(event) {
-      res.render('./events/edit', {
-        event: event,
-        page_name: `Edit: ${event.title}`
-      });
-    } else {
-      let err = new Error(`Cannot find event with id ${id}`);
-      err.status = 404;
-      next(err);
-    }
+    res.render('./events/edit', {
+      event: event,
+      page_name: `Edit: ${event.title}`,
+      localToISO: Event.localToISO
+    });
   })
   .catch(err => next(err));
 };
 
 exports.update = (req, res, next) => {
   const id = req.params.id;
-  if(!id.match(/^[0-9a-fA-F]{24}$/)){
-    let err = new Error(`Invalid event id`);
-    err.status = 400;
-    next(err);
-  }
-
   const formData = req.body;
   let event = {
     category: formData.category,
@@ -128,22 +107,18 @@ exports.update = (req, res, next) => {
   }
   // if user changes image, add it to update request
   if(req.files){
+    const image = req.files.image;
     event.image = {
-      data: req.files.image.data,
-      filename: req.files.image.name,
-      contentType: req.files.image.mimetype
+      data: image.data,
+      filename: image.name,
+      contentType: image.mimetype
     }
   }
 
-  model.findByIdAndUpdate(id, event, {useFindAndModify: false, runValidators: true})
+  Event.findByIdAndUpdate(id, event, {useFindAndModify: false, runValidators: true})
   .then(event => {
-    if(event){
-      res.redirect(`/events/${id}`);
-    } else {
-      let err = new Error(`Cannot find event with id ${id}`);
-      err.status = 404;
-      next(err);
-    }
+    req.flash('success', 'Event Edited');
+    res.redirect(`/events/${id}`);
   })
   .catch(err => {
     if(err.name === 'ValidationError'){
@@ -154,27 +129,7 @@ exports.update = (req, res, next) => {
 };
 
 exports.delete = (req, res, next) => {
-  let id = req.params.id;
-  if(!id.match(/^[0-9a-fA-F]{24}$/)){
-      let err = new Error(`Invalid story id`);
-      err.status = 400;
-      next(err);
-  }
-
-  model.findByIdAndDelete(id, {useFindAndModify: false})
-  .then(event => {
-    if(event){
-      res.redirect('/events');
-    } else {
-      let err = new Error(`Cannot find Event with id ${id}`);
-      err.status = 404;
-      next(err);
-    }
-  })
-  .catch(err => {
-    if(err.name === 'ValidationError'){
-      err.status = 400;
-    }
-    next(err);
-  });
+  Event.findByIdAndDelete(req.params.id, {useFindAndModify: false})
+  .then(event => res.redirect('/events'))
+  .catch(err => next(err));
 };

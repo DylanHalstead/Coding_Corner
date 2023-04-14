@@ -30,10 +30,6 @@
         </select>
       </div>
       <div class="new-event-field-container">
-        <label class="new-event-label" for="host">Host</label>
-        <input class="new-event-field" type="text" name="host" id="host" value="<%= event.host %>" required autocomplete="off">
-      </div>
-      <div class="new-event-field-container">
         <label class="new-event-label" for="title">Title</label>
         <input class="new-event-field" type="text" name="title" id="title" value="<%= event.title %>" required autocomplete="off">
       </div>
@@ -44,11 +40,11 @@
       <div class="new-event-dates-container">
         <div class="new-event-field-container">
           <label class="new-event-label" for="start">Start</label>
-          <input class="new-event-field" type="datetime-local" name="start" id="start" value="<%= event.start.toISOString().slice(0, -1); %>" required>
+          <input class="new-event-field" type="datetime-local" name="start" id="start" value="<%= localToISO(event.start.toLocaleString()) %>" required>
         </div>
         <div class="new-event-field-container">
           <label class="new-event-label" for="end">End</label>
-          <input class="new-event-field" type="datetime-local" name="end" id="end" value="<%= event.end.toISOString().slice(0, -1); %>" required>
+          <input class="new-event-field" type="datetime-local" name="end" id="end" value="<%= localToISO(event.end.toLocaleString()) %>" required>
         </div>
       </div>
       <div class="new-event-field-container">

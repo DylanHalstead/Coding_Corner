@@ -3,9 +3,14 @@ const express = require('express');
 const morgan = require('morgan');
 const methodOverride = require('method-override');
 const fileUpload = require('express-fileupload');
+const mongoose = require('mongoose');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+const flash = require('connect-flash');
 const eventRoutes = require('./routes/eventRoutes')
 const mainRoutes = require('./routes/mainRoutes')
-const mongoose = require('mongoose');
+const userRoutes = require('./routes/userRoutes')
+
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -23,6 +28,27 @@ mongoose.connect(mongoURL)
 .catch(err => console.log(err.message));
 
 // mount middleware
+// create session connected to MongoDB
+app.use(
+  session({
+      secret: "ajfeirf90aeu9eroejfoefj",
+      resave: false,
+      saveUninitialized: false,
+      store: new MongoStore({mongoUrl: mongoURL}),
+      cookie: {maxAge: 60*60*1000}
+      })
+);
+app.use(flash());
+// set local variables like current user and flash messages
+app.use((req, res, next) => {
+  res.locals.user = req.session.user||null;
+  res.locals.userName = req.session.userName||null;
+  // only load flash messages if not redirected
+  res.locals.errorMessages = req.flash('error');
+  res.locals.successMessages = req.flash('success');
+  console.log(res.locals);
+  next();
+});
 // serve static files that are in public dir
 app.use(express.static('public'));
 // allow us to parse data in request body; helps us deal with post requests
@@ -37,6 +63,7 @@ app.use(fileUpload())
 // mount routes
 app.use('/', mainRoutes);
 app.use('/events', eventRoutes);
+app.use('/users', userRoutes);
 
 // error handling
 app.use((req, res, next) => {

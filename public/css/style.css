@@ -154,6 +154,86 @@ body {
   padding: .4rem .75rem;
 }
 
+.alerts-container {
+  display: flex;
+  margin: 20px;
+}
+
+.alert-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: grey;
+  border-width: 1px;
+  border-style: solid;
+  max-width: fit-content;
+  border-radius: 5px;
+}
+
+.alert-icon {
+  width: 25px;
+  height: 25px;
+  margin-right: .5rem;
+}
+
+.alert-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0 .5rem;
+  height: 15px;
+}
+
+.alert-btn-cross {
+  width: 15px;
+  height: 15px;
+}
+
+.alert-info {
+  display: flex;
+  margin: .5rem;
+  align-items: center;
+}
+
+.alert-container.danger {
+  color: #a63446;
+  background-color: rgba(166, 52, 70, .25);
+  border-color: rgba(166, 52, 70, .5);
+  box-shadow: 0 0 10px rgba(166, 52, 70, .75);
+}
+
+.alert-container.success {
+  color: #1EAE5A;
+  background-color: rgba(30, 174, 90, .25);
+  border-color: rgba(30, 174, 90, .5);
+  box-shadow: 0 0 10px rgba(30, 174, 90, .75);
+}
+
+.alert-container.danger .alert-divider {
+  width: 1px;
+  height: 20px;
+  background-color: rgba(166, 52, 70, .5);
+}
+
+.alert-container.success .alert-divider {
+  width: 1px;
+  height: 20px;
+  background-color: rgba(30, 174, 90, .5);
+}
+
+.alert-container.danger, .alert-container.danger path {
+  color: #a63446;
+}
+
+.alert-container .alert-info p {
+  color: rgba(243, 235, 255, .75)
+}
+
+.alert-container.success .alert-btn, .alert-container.success path {
+  color: #1EAE5A;
+}
+
 footer {
   margin-top: auto;
 }
