@@ -7,20 +7,20 @@
       <input class="new-event-field" type="input" name="firstName" id="firstName" required>
     </div>
     <div class="new-event-field-container">
-      <label class="new-event-label" for="title">Last Name</label>
+      <label class="new-event-label" for="lastName">Last Name</label>
       <input class="new-event-field" type="input" name="lastName" id="lastName" required>
     </div>
     <div class="new-event-field-container">
-      <label class="new-event-label" for="title">Username</label>
-      <input class="new-event-field" type="input" name="username" id="username" required>
+      <label class="new-event-label" for="username">Username</label>
+      <input class="new-event-field" type="input" name="username" id="username" minlength="4" maxlength="32" required>
     </div>
     <div class="new-event-field-container">
-      <label class="new-event-label" for="title">Email Address</label>
+      <label class="new-event-label" for="email">Email Address</label>
       <input class="new-event-field" type="email" name="email" id="email" required>
     </div>
     <div class="new-event-field-container">
-      <label class="new-event-label" for="title">Password</label>
-      <input class="new-event-field" type="password" name="password" id="password" required>
+      <label class="new-event-label" for="password">Password</label>
+      <input class="new-event-field" type="password" name="password" id="password" minlength="8" maxlength="64" required>
       <button class="new-event-submit-btn" type="submit">Submit</button>
     </div>
   </div>

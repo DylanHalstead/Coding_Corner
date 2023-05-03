@@ -1,4 +1,5 @@
 const Event = require('../models/event');
+const Rsvp = require('../models/rsvp');
 
 exports.index = (req, res, next) => {
   // Event.aggregate([
@@ -45,16 +46,12 @@ exports.create = (req, res, next) => {
     start: eventData.start,
     end: eventData.end,
     location: eventData.location,
-  };
-  // Validate image was uploaded
-  if(req.files){
-    const image = req.files.image;
-    event.image = {
-      data: image.data,
-      filename: image.name,
-      contentType: image.mimetype
+    image: {
+      data: req.files.image.data,
+      filename: req.files.image.name,
+      contentType: req.files.image.mimetype
     }
-  }
+  };
 
   event = new Event(event);
   event.save()
@@ -71,14 +68,38 @@ exports.create = (req, res, next) => {
 };
 
 exports.show = (req, res, next) => {
-  Event.findById(req.params.id).populate('host', 'username')
+  Event.findById(req.params.id).populate('host', '_id username')
   .then(event => {
-    res.render('./events/event', {
-      event: event,
-      page_name: event.title
-    });
+    // see if user has RSVPed
+    Rsvp.findOne({event: req.params.id, user: req.session.user})
+    .then(rsvp => {
+      // count all rsvps for this event, seperate by response.
+      Rsvp.aggregate([
+        { $match: { event: event._id } },
+        { $group: { _id: "$response", count: { $sum: 1 } } }
+      ])
+      .then(rsvpCounts => {
+        // convert rsvpCounts to a better format
+        let rsvpObj = {};
+        for (let rsvpCount of rsvpCounts) {
+          rsvpObj[rsvpCount._id] = rsvpCount.count;
+        }
+        let response = 'NO RESPONSE';
+        if(rsvp){
+          response = rsvp.response;
+        }
+        res.render('./events/event', {
+          event: event,
+          response: response,
+          rsvpCounts: rsvpObj,
+          page_name: event.title
+        });
+      })
+      .catch(err => next(err));
+    })
+    .catch(err => next(err));
   })
-  .catch(err => next(err));
+  .catch(err => {next(err)});
 }
 
 exports.edit = (req, res, next) => {
@@ -95,17 +116,17 @@ exports.edit = (req, res, next) => {
 
 exports.update = (req, res, next) => {
   const id = req.params.id;
-  const formData = req.body;
+  const eventData = req.body;
   let event = {
-    category: formData.category,
-    title: formData.title,
-    details: formData.details,
-    host: formData.host,
-    start: formData.start,
-    end: formData.end,
-    location: formData.location
-  }
-  // if user changes image, add it to update request
+    category: eventData.category,
+    title: eventData.title,
+    details: eventData.details,
+    host: req.session.user,
+    start: eventData.start,
+    end: eventData.end,
+    location: eventData.location,
+  };
+  // Validate image was uploaded
   if(req.files){
     const image = req.files.image;
     event.image = {
@@ -131,8 +152,42 @@ exports.update = (req, res, next) => {
 exports.delete = (req, res, next) => {
   Event.findByIdAndDelete(req.params.id, {useFindAndModify: false})
   .then(event => {
-    req.flash('success', 'Event Deleted');
-    res.redirect('/events')
+    // delete all rsvps for this event
+    Rsvp.deleteMany({event: req.params.id})
+    .then(result => {
+      req.flash('success', 'Event Deleted');
+      res.redirect('/events');
+    })
+    .catch(err => next(err));
+  })
+  .catch(err => next(err));
+};
+
+exports.rsvp = (req, res, next) => {
+  let response = req.body.response
+  Rsvp.findOne({event: req.params.id, user: req.session.user})
+  .then(rsvp => {
+    if(rsvp){
+      console.log(response)
+      Rsvp.findByIdAndUpdate(rsvp._id, {response: response}, {useFindAndModify: false})
+      .then(result => {
+        req.flash('success', `You've changed your RSVP from ${rsvp.response} to ${response}`);
+        res.redirect('/users/profile');
+      })
+      .catch(err => next(err));
+    } else {
+      rsvp = new Rsvp({
+        event: req.params.id,
+        user: req.session.user,
+        response: response
+      });
+      rsvp.save()
+      .then(result => {
+        req.flash('success', `You've RSVPed with ${response}`);
+        res.redirect('/users/profile');
+      })
+      .catch(err => next(err));
+    }
   })
   .catch(err => next(err));
 };

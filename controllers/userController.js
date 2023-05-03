@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const Event = require('../models/event');
+const Rsvp = require('../models/rsvp');
 
 exports.new = (req, res)=>{
   res.render('./users/new', {
@@ -36,12 +37,10 @@ exports.loginPage = (req, res, next) => {
 }
 
 exports.login = (req, res, next)=>{
-  let credential = req.body.credential;
+  let email = req.body.email;
+  if(email) email = email.toLowerCase();
   let password = req.body.password;
-  User.findOne({ $or: [
-    { email: credential },
-    { username: credential }
-  ] })
+  User.findOne({ email: email })
   .then(user => {
     if (!user) {
       req.flash('error', 'Wrong Username');  
@@ -67,13 +66,16 @@ exports.login = (req, res, next)=>{
 
 exports.profile = (req, res, next)=>{
   let id = req.session.user;
-  Promise.all([User.findById(id), Event.find({'host': id})])
+  Promise.all([User.findById(id), Event.find({'host': id}),
+  Rsvp.find({'user': id}).populate('event')])
   .then(result => {
     let user = result[0];
     let events = result[1];
+    let rsvps = result[2];
     res.render(`./users/profile`, {
       user: user,
       events: events,
+      rsvps: rsvps,
       page_name: `${user.firstName}'s Profile`
     });
   })
@@ -84,6 +86,7 @@ exports.logout = (req, res, next)=>{
   req.session.destroy(err=>{
     if(err) next(err);
     else {
+      req.flash('success', 'Successfully Logged Out');
       res.redirect('/')
     };  
   });

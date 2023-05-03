@@ -1,4 +1,6 @@
 require('dotenv').config();
+const path = require('path');
+const favicon = require('serve-favicon');
 const express = require('express');
 const morgan = require('morgan');
 const methodOverride = require('method-override');
@@ -22,7 +24,7 @@ app.set('view engine', 'ejs');
 mongoose.connect(mongoURL)
 .then(client => {
     app.listen(port, host, () => {
-        console.log(`Server running on port ${port}`)
+      console.log(`Server running on port ${port}`)
     });
 })
 .catch(err => console.log(err.message));
@@ -59,6 +61,8 @@ app.use(morgan('tiny'));
 app.use(methodOverride('_method'));
 // used for obtaining images from form
 app.use(fileUpload())
+// add favicon
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 // mount routes
 app.use('/', mainRoutes);
@@ -68,7 +72,7 @@ app.use('/users', userRoutes);
 // error handling
 app.use((req, res, next) => {
   let err = new Error(`The server cannot locate ${req.url}`);
-  err.status = 404;
+  err.status = 400;
   next(err);
 });
 
@@ -77,7 +81,7 @@ app.use((err, req, res, next) => {
     err.status = 500;
     err.message = ("Internal Server Error");
   }
-  console.error(err.stack)
+  console.log(err.stack)
   res.status(err.status);
   res.render('error', {
     error: err,

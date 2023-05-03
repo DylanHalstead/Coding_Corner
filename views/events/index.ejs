@@ -9,7 +9,7 @@
           <% events[category].forEach(event => { %>
             <a href="/events/<%= event._id %>" class="event-link">
               <div class="event-container">
-                <img src="data:image/<%=event.image.contentType%>;base64,<%=event.image.data.toString('base64')%>" alt="<%=event.image.filename %>.jpg" class="event-image">
+                <img src="data:image/<%=event.image.contentType%>;base64,<%=event.image.data.toString('base64')%>" alt="<%= event.image.filename %>.jpg" class="event-image">
                 <div class="event-info-container">
                   <h3 class="event-title"><%= event.title %></h3>
                   <div class="event-body-container">

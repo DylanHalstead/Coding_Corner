@@ -18,7 +18,7 @@ exports.isLoggedIn = (req, res, next) => {
   }
 }
 
-exports.isAuthor = (req, res, next) => {
+exports.isHost = (req, res, next) => {
   let id = req.params.id;
   Event.findById(id)
   .then(story => {
@@ -27,6 +27,27 @@ exports.isAuthor = (req, res, next) => {
         next();
       } else {
         let err = new Error('Unauthorized Access to resource');
+        err.status = 401;
+        next(err);
+      }
+    } else {
+      let err = new Error(`Cannot find event with id ${id}`);
+      err.status = 404;
+      next(err);
+    }
+  })
+  .catch(err => next(err));
+}
+
+exports.isNotHost = (req, res, next) => {
+  let id = req.params.id;
+  Event.findById(id)
+  .then(story => {
+    if(story) {
+      if(story.host != req.session.user) {
+        next();
+      } else {
+        let err = new Error('Unauthorized Access to resource (Cannot RSVP to your own event)');
         err.status = 401;
         next(err);
       }

@@ -3,12 +3,12 @@
   <div class="new-event-container">
     <h1 class="new-event-header">Login</h1>
     <div class="new-event-field-container">
-      <label class="new-event-label" for="credential" autocomplete="off">Email or Username</label>
-      <input class="new-event-field" type="input" name="credential" id="credential" required>
+      <label class="new-event-label" for="credential" autocomplete="off">Email</label>
+      <input class="new-event-field" type="email" name="email" id="email" required>
     </div>
     <div class="new-event-field-container">
       <label class="new-event-label" for="password">Password</label>
-      <input class="new-event-field" type="password" name="password" id="password" required>
+      <input class="new-event-field" type="password" name="password" id="password" minlength="8" maxlength="64" required>
       <button class="new-event-submit-btn" type="submit">Submit</button>
     </div>
   </div>

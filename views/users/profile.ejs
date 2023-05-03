@@ -2,33 +2,98 @@
 <div class="title-container">
   <h1 class="category-title">Hello <%= user.username %>: </h1>
 </div>
-<div class="event-category-cards">
-  <% if(events.length > 0) { %>
-    <% events.forEach(event => { %>
-      <a href="/events/<%= event._id %>" class="event-link">
-        <div class="event-container">
-          <img src="data:image/<%=event.image.contentType%>;base64,<%=event.image.data.toString('base64')%>" alt="<%=event.image.filename %>.jpg" class="event-image">
-          <div class="event-info-container">
-            <h3 class="event-title"><%= event.title %></h3>
-            <div class="event-body-container">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="event-body-icon">
-                <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
-                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-              </svg>
-              <p class="event-text"><%= event.start.toLocaleString() %></p>
+<div class="profile-grid">
+  <div class="events-container">
+    <div class="title-container">
+      <h2 class="profile-subtitle">Your Events</h2>
+    </div>
+    <div class="event-category-cards">
+      <% if(events.length > 0) { %>
+        <% events.forEach(event => { %>
+          <a href="/events/<%= event._id %>" class="event-link">
+            <div class="event-container">
+              <img src="data:image/<%=event.image.contentType%>;base64,<%=event.image.data.toString('base64')%>" alt="<%= event.image.filename %>.jpg" class="event-image">
+              <div class="event-info-container">
+                <h3 class="event-title"><%= event.title %></h3>
+                <div class="event-body-container">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="event-body-icon">
+                    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                  </svg>
+                  <p class="event-text"><%= event.start.toLocaleString() %></p>
+                </div>
+                <div class="event-body-container">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="event-body-icon">
+                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                  </svg>
+                  <p class="event-text"><%= event.location %></p>
+                </div>
+                <div class="event-body-container">
+                  <div class="detailed-event-options">
+                    <form action="/events/<%= event._id %>/edit" method="GET">
+                      <button id="detailed-event-edit-link" class="detailed-event-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="event-alter-icon" id="detailed-event-edit" viewBox="0 0 16 16">
+                          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                        </svg>
+                      </button>
+                    </form>
+                    <form action="/events/<%= event._id %>?_method=DELETE" method="POST">
+                      <button id="detailed-event-trash-link" class="detailed-event-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="event-alter-icon" id="detailed-event-trash" viewBox="0 0 16 16">
+                          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                          <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        </svg>
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="event-body-container">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="event-body-icon">
-                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
-              </svg>
-              <p class="event-text"><%= event.location %></p>
+          </a>
+        <% });%>
+      <% } else { %> 
+        <h1 class="category-title">You Have No Events!</h1>
+      <% } %>
+    </div>
+  </div>
+  <div class="rsvp-container">
+    <div class="title-container">
+      <h2 class="profile-subtitle">Your RSVP's</h2>
+    </div>
+    <div class="event-category-cards">
+      <% if(rsvps.length > 0) { %>
+        <% rsvps.forEach(rsvp => { %>
+          <a href="/events/<%= rsvp.event._id %>" class="event-link">
+            <div class="event-container">
+              <img src="data:image/<%= rsvp.event.image.contentType %>;base64,<%= rsvp.event.image.data.toString('base64') %>" alt="<%= rsvp.event.image.filename %>" class="event-image">
+              <div class="event-info-container">
+                <h3 class="event-title"><%= rsvp.event.title %></h3>
+                <div class="event-body-container">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="event-body-icon">
+                    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                  </svg>
+                  <p class="event-text"><%= rsvp.event.start.toLocaleString() %></p>
+                </div>
+                <div class="event-body-container">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="event-body-icon">
+                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                  </svg>
+                  <p class="event-text"><%= rsvp.event.location %></p>
+                </div>
+                <div class="event-body-container">
+                  <p class="">Response: <%= rsvp.response %></p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </a>
-    <% });%>
-  <% } else { %> 
-    <h1 class="category-title">You Have No Events!</h1>
-  <% } %>
+          </a>
+        <% }); %>
+      <% } else { %> 
+        <h1 class="category-title">You Have No RSVPs!</h1>
+      <% } %>
+    </div>
+  </div>
 </div>
+
 <%- include('../partials/footer.ejs')%>
