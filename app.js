@@ -16,7 +16,7 @@ const userRoutes = require('./routes/userRoutes')
 
 const app = express();
 const port = process.env.PORT || 3000;
-const host = 'localhost';
+const host = process.env.HOST || 'localhost';
 const mongoURL = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@codingcorner.wioq6cp.mongodb.net/?retryWrites=true&w=majority`;
 app.set('view engine', 'ejs');
 
