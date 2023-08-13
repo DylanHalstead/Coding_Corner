@@ -1,5 +1,5 @@
 # Coding Corner 💻
-Originally a discord server for UNC Charlotte Computer Science students, Coding Corner is the place for CS students to plan meetups, find and attend get togethers, and make new friends! An event CRUD resource built for Network Based Application Development. Coding Corning was my final project for ITCS 4166 at UNCC with additional feautre added by myself. hosted on render[render](https://coding-corner.onrender.com/ "Coding Corner")
+Originally a discord server for UNC Charlotte Computer Science students, Coding Corner is the place for CS students to plan meetups, find and attend get-togethers, and make new friends! An event CRUD resource built for Network-Based Application Development. Coding Corning was my final project for ITCS 4166 at UNCC with additional features added by myself. Hosted on [render](https://coding-corner.onrender.com)
 
 ## Features 🚀
 - User sessions; authentication using bcrypt
@@ -17,13 +17,10 @@ To run Coding Corner on your local machine, please follow the steps below:
 HTTPS: <pre><code>git clone https://github.com/DylanHalstead/Coding_Corner.git</code></pre>
 SSH: <pre><code>git clone git@github.com:DylanHalstead/Coding_Corner.git</code></pre>
 
-1. Install [Node](https://nodejs.org/en "Node Homepage") and install the necessary dependencies by running the following command in the project root directory:
-<pre><code>npm i</code></pre>
+2. Install [Node](https://nodejs.org/en "Node Homepage") and install the necessary dependencies by running `npm i` in the project root directory:
 
-1. Create a `.env` file in the root directory of the project following the `.env.sample` as a guide:
+3. Create a `.env` file in the root directory of the project following the `.env.sample` as a guide:
 
-2. Start the server by running the following command:
-<pre><code>npm start</code></pre>
+4. Start the server by running `npm start`:
 
-
-5. Navigate to `http://localhost:3000` (or `http://<env.HOST>:<env.PORT>`) in your browser to access Coding Corner.
+5. Navigate to `http://localhost:3000` or `http://<env.HOST>:<env.PORT>` in your browser to access Coding Corner.
